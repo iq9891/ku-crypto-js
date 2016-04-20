@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>crypto.js</title>
+  </head>
+  <body>
+    <button type="button" id="btn" style="width: 100px; height: 30px;">开始</button>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <script type="text/javascript">
+
+      document.write('打开控制台');
+      window.onload = function () {
+        document.getElementById('btn').onclick = run;
+      };
+
+      function run() {
+        var data = [{id: 1}];
+        for (var i = 1; i < 50000; i++) {
+          data.push({
+            id:i,
+            name:'aaa'+i,
+            age:i
+          });
+        }
+
+        console.time('encrypt');
+        // 加密
+        var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), 'secret key 123');
+        console.timeEnd('encrypt');
+
+        // 解密
+        console.time('Decrypt');
+        var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
+        var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+        console.timeEnd('Decrypt');
+
+        console.log(ciphertext,decryptedData);
+      }
+
+    </script>
+  </body>
+</html>
